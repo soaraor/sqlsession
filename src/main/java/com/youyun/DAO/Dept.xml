@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youyun.DAO.DeptMapper">
+    <insert id="addDept" parameterType="com.youyun.entity.T_dept">
+        insert into T_DEPT (DEPTNO,DNAME,LOC)
+        values (#{deptno},#{dname},#{loc})
+    </insert>
+</mapper>
