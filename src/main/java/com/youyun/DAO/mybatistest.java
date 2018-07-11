@@ -177,7 +177,7 @@ public class mybatistest{
         //创建Session
         SqlSession session = sf.openSession();
 
-        Map map = (Map)session.selectOne("findDept",10);
+        Map map = (Map)session.selectOne("findDept",55);
         System.out.println(map.get("deptno") +"\t"+map.get("dname")+"\t"+map.get("loc"));
 
         session.close();
