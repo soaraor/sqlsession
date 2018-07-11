@@ -123,13 +123,13 @@ public class mybatistest{
         SqlSessionFactory sf = sfb.build(reader);
         // 创建Session
         SqlSession session = sf.openSession();
+
         // 调用findAll方法
-        List<T_dept> list = session.selectList("findAll");
-        for (T_dept dept : list) {
-            System.out.println(dept.getDeptno() + " " + dept.getDname() + " "
-                    + dept.getLoc());
+        List<T_dept> list = session.selectList("findall");
+        for (T_dept dept : list){
+            System.out.println(dept.getDeptno() + "——" + dept.getDname() + "——" + dept.getLoc());
         }
-        System.out.println("findall运行成功！");
+        System.out.println("第五部分：findall运行成功！");
         session.close();
     }
 }
