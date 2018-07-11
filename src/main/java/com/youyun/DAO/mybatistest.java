@@ -12,7 +12,9 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+
 
 public class mybatistest{
 
@@ -133,7 +135,7 @@ public class mybatistest{
         }
         System.out.println("第五部分：findall运行成功！");
         session.close();
-    }
+    }//---------------------------------------------------------测试可用
 
     /**
      * 测试分页查询数据（控制抓取记录的起点和数量）
@@ -149,12 +151,9 @@ public class mybatistest{
         //创建Session
         SqlSession session = sf.openSession();
 
-        Scanner sc = new Scanner(System.in);
-        //System.out.println("请输入查询起点：");
-        int offset = 5;//sc.nextInt();//起点,从2开始
-        //System.out.println("请输入查询条数：");
-        int limit = 10;//sc.nextInt();//查几条
-        RowBounds rowBounds = new RowBounds(offset, limit);
+        int start = 7;//起点
+        int offset = 8;
+        RowBounds rowBounds = new RowBounds(start, offset);
         List<T_dept> list =  session.selectList("findall",null,rowBounds);
         for(T_dept dept : list){
             System.out.println(dept.getDeptno()+" "
@@ -162,7 +161,26 @@ public class mybatistest{
                     +dept.getLoc());
         }
         session.close();
-    }
+    }//---------------------------------------------------------测试可用
 
+    /**
+     * 以map映射实现返回部门对象
+     * @throws IOException
+     */
+    @Test
+    public void findDept() throws IOException{
+        String conf = "SqlMapConfig.xml";
+        Reader reader = Resources.getResourceAsReader(conf);
+        //创建SessionFactory对象
+        SqlSessionFactoryBuilder sfb = new SqlSessionFactoryBuilder();
+        SqlSessionFactory sf = sfb.build(reader);
+        //创建Session
+        SqlSession session = sf.openSession();
+
+        Map map = (Map)session.selectOne("findDept",10);
+        System.out.println(map.get("deptno") +"\t"+map.get("dname")+"\t"+map.get("loc"));
+
+        session.close();
+    }//---------------------------------------------------------测试可用
 
 }

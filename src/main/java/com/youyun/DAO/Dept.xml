@@ -25,4 +25,8 @@
     <select id="findall" resultType="com.youyun.entity.T_dept">
         SELECT deptno,dname,loc FROM t_dept
     </select>
+    <!-- 返回Map -->
+    <select id="findDept" parameterType="int"  resultType="java.util.HashMap">
+        select deptno,dname,loc from t_dept where deptno=#{deptno}
+    </select>
 </mapper>
