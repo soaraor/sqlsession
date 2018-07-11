@@ -3,6 +3,7 @@ package com.youyun.DAO;
 import com.youyun.entity.T_dept;
 
 import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -11,6 +12,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
+import java.util.Scanner;
 
 public class mybatistest{
 
@@ -30,11 +32,11 @@ public class mybatistest{
 
         //调用addDept操作
         T_dept dept = new T_dept();
-        dept.setDeptno((long)55);
-        dept.setDname("singing");
-        dept.setLoc("wuhan");
-        session.insert("addDept",dept);
-        System.out.println("第一部分：insert运行成功！");
+        dept.setDeptno((long)60);
+        dept.setDname("dividing");
+        dept.setLoc("kaili");
+        session.insert("addDept", dept);
+        System.out.println("\n"+"第一部分：insert运行成功！"+"\n");
         session.commit();
         //关闭
         session.close();
@@ -127,9 +129,40 @@ public class mybatistest{
         // 调用findAll方法
         List<T_dept> list = session.selectList("findall");
         for (T_dept dept : list){
-            System.out.println(dept.getDeptno() + "——" + dept.getDname() + "——" + dept.getLoc());
+            System.out.println(dept.getDeptno() + "\t" + dept.getDname() + "\t" + dept.getLoc());
         }
         System.out.println("第五部分：findall运行成功！");
         session.close();
     }
+
+    /**
+     * 测试分页查询数据（控制抓取记录的起点和数量）
+     * @throws IOException
+     */
+    @Test
+    public void testFindPage() throws IOException{
+        String conf = "SqlMapConfig.xml";
+        Reader reader =  Resources.getResourceAsReader(conf);
+        //创建SessionFactory对象
+        SqlSessionFactoryBuilder sfb = new SqlSessionFactoryBuilder();
+        SqlSessionFactory sf = sfb.build(reader);
+        //创建Session
+        SqlSession session = sf.openSession();
+
+        Scanner sc = new Scanner(System.in);
+        //System.out.println("请输入查询起点：");
+        int offset = 5;//sc.nextInt();//起点,从2开始
+        //System.out.println("请输入查询条数：");
+        int limit = 10;//sc.nextInt();//查几条
+        RowBounds rowBounds = new RowBounds(offset, limit);
+        List<T_dept> list =  session.selectList("findall",null,rowBounds);
+        for(T_dept dept : list){
+            System.out.println(dept.getDeptno()+" "
+                    +dept.getDname()+" "
+                    +dept.getLoc());
+        }
+        session.close();
+    }
+
+
 }
