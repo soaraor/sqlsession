@@ -2,9 +2,27 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.youyun.DAO.DeptMapper">
+<mapper namespace="com.youyun.DAO.Deptmapper">
+    <!--插入-->
     <insert id="addDept" parameterType="com.youyun.entity.T_dept">
-        insert into T_DEPT (DEPTNO,DNAME,LOC)
-        values (#{deptno},#{dname},#{loc})
+        INSERT INTO t_dept (deptno,dname,loc)
+        VALUES (#{deptno},#{dname},#{loc})
     </insert>
+    <!--更新-->
+    <update id="updateDept" parameterType="com.youyun.entity.T_dept">
+        UPDATE t_dept SET dname = #{dname},loc = #{loc}
+        WHERE deptno = #{deptno}
+    </update>
+    <!--按id删除-->
+    <delete id="deletebyid" parameterType="int">
+        DELETE FROM t_dept WHERE deptno = #{deptno}
+    </delete>
+    <!--按id查询-->
+    <select id="findbyid" parameterType="int" resultType="com.youyun.entity.T_dept">
+        SELECT deptno,dname,loc FROM t_dept WHERE deptno = #{id}
+    </select>
+    <!--查询全部-->
+    <select id="findall" resultType="com.youyun.entity.T_dept">
+        SELECT deptno,dname,loc FROM t_dept
+    </select>
 </mapper>

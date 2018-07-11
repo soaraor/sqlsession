@@ -1,15 +1,15 @@
 package com.youyun.entity;
 
 public class T_dept {
-  private Long deptno;//部門號
+  private long deptno;//部門號
   private String dname;//部門名
   private String loc;//部門
 
-  public Long getDeptno() {
+  public long getDeptno() {
     return deptno;
   }
 
-  public void setDeptno(Long deptno) {
+  public void setDeptno(long deptno) {
     this.deptno = deptno;
   }
 
