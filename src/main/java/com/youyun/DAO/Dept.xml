@@ -29,4 +29,18 @@
     <select id="findDept" parameterType="int"  resultType="java.util.HashMap">
         select deptno,dname,loc from t_dept where deptno=#{deptno}
     </select>
+
+
+    <!-- ResultMap应用 -->
+    <resultMap id="deptMap" type="com.youyun.entity.Dept1">
+        <result property="no" column="deptno" jdbcType="INTEGER" javaType="int" />
+        <result property="name" column="dname" jdbcType="VARCHAR" javaType="string" />
+        <result property="addr" column="loc" jdbcType="VARCHAR" javaType="string" />
+    </resultMap>
+    <select id="findall1" resultMap="deptMap">
+        select deptno,dname,loc from t_dept
+    </select>
+
+
 </mapper>
+

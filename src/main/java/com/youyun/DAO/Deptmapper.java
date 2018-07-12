@@ -1,5 +1,6 @@
-package com.youyun.DAO;//為接口
-import com.youyun.entity.T_dept;//為T_dept類
+package com.youyun.DAO;//接口
+import com.youyun.entity.Dept1;//表dept1
+import com.youyun.entity.T_dept;//表T_dept
 
 import java.util.List;
 
@@ -14,6 +15,10 @@ public interface Deptmapper {
     public T_dept findbyid(int id);
     //查询全部
     public List<T_dept> findall();
+
+    public List<Dept1> findall1();
+
+
 
 
 }

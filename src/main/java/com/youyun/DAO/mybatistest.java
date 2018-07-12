@@ -1,5 +1,6 @@
 package com.youyun.DAO;
 
+import com.youyun.entity.Dept1;
 import com.youyun.entity.T_dept;
 
 import org.apache.ibatis.io.Resources;
@@ -13,7 +14,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 
 public class mybatistest{
@@ -34,9 +34,9 @@ public class mybatistest{
 
         //调用addDept操作
         T_dept dept = new T_dept();
-        dept.setDeptno((long)60);
-        dept.setDname("dividing");
-        dept.setLoc("kaili");
+        dept.setDeptno((long)11);
+        dept.setDname("bale");
+        dept.setLoc("walse");
         session.insert("addDept", dept);
         System.out.println("\n"+"第一部分：insert运行成功！"+"\n");
         session.commit();
@@ -59,9 +59,9 @@ public class mybatistest{
         SqlSession session = sf.openSession();
 
         //调用findbyid操作
-        T_dept dept = (T_dept)session.selectOne("findbyid",10);
-        dept.setDname("skiing");
-        dept.setLoc("haerbin");
+        T_dept dept = (T_dept)session.selectOne("findbyid",3);
+        dept.setDname("fate");
+        dept.setLoc("qiqihaer");
         //调用updateDept操作
         session.update("updateDept",dept);
         System.out.println("第二部分：update运行成功！");
@@ -107,8 +107,8 @@ public class mybatistest{
         SqlSession session = sf.openSession();
 
         // 调用findbyid方法
-        T_dept dept = (T_dept)session.selectOne("findbyid", 10);
-        System.out.println("ID："+dept.getDeptno() + " ， "+"部门："+ dept.getDname() + " ， " +"地址："+ dept.getLoc());
+        T_dept dept = (T_dept)session.selectOne("findbyid", 40);
+        System.out.println("ID："+dept.getDeptno() + " ， "+"部门："+ dept.getDname() + " ， " +"地址："+ dept.getDLoc());
         System.out.println("第四部分：findbyid运行成功！");
         // 关闭
         session.close();
@@ -131,7 +131,7 @@ public class mybatistest{
         // 调用findAll方法
         List<T_dept> list = session.selectList("findall");
         for (T_dept dept : list){
-            System.out.println(dept.getDeptno() + "\t" + dept.getDname() + "\t" + dept.getLoc());
+            System.out.println(dept.getDeptno() + "\t" + dept.getDname() + "\t" + dept.getDLoc());
         }
         System.out.println("第五部分：findall运行成功！");
         session.close();
@@ -151,14 +151,14 @@ public class mybatistest{
         //创建Session
         SqlSession session = sf.openSession();
 
-        int start = 7;//起点
-        int offset = 8;
+        int start = 5;//起点
+        int offset = 9;
         RowBounds rowBounds = new RowBounds(start, offset);
         List<T_dept> list =  session.selectList("findall",null,rowBounds);
         for(T_dept dept : list){
             System.out.println(dept.getDeptno()+" "
                     +dept.getDname()+" "
-                    +dept.getLoc());
+                    +dept.getDLoc());
         }
         session.close();
     }//---------------------------------------------------------测试可用
@@ -177,10 +177,59 @@ public class mybatistest{
         //创建Session
         SqlSession session = sf.openSession();
 
-        Map map = (Map)session.selectOne("findDept",55);
+        Map map = (Map)session.selectOne("findDept",40);
         System.out.println(map.get("deptno") +"\t"+map.get("dname")+"\t"+map.get("loc"));
 
         session.close();
     }//---------------------------------------------------------测试可用
 
+    /**
+     * 使用Mapper对T_dept表操作案例
+     * @throws IOException
+     */
+    @Test
+    public void testDeptmapper() throws IOException{
+        String conf = "SqlMapConfig.xml";
+        Reader reader = Resources.getResourceAsReader(conf);
+        //创建SessionFactory对象
+        SqlSessionFactoryBuilder sfb = new SqlSessionFactoryBuilder();
+        SqlSessionFactory sf = sfb.build(reader);
+        //创建Session
+        SqlSession session = sf.openSession();
+
+        Deptmapper mapper = session.getMapper(Deptmapper.class);//生成mapper接口实例
+
+        //调用findall方法
+        List<T_dept> list = mapper.findall();
+        for (T_dept dept:list){
+            System.out.println(dept.getDeptno()+"\t"+dept.getDname()+"\t"+dept.getDLoc());
+        }
+        System.out.println("序列大小："+list.size());
+        session.close();
+    }
+
+    /**
+     * 测试自定义映射返回（实体类class与数据库表db.table的字段不一致时，用实体字段映射DB字段并返回DB数据）
+     * @throws IOException
+     */
+    @Test
+    public void testResultMap() throws IOException{
+        String conf = "SqlMapConfig.xml";
+        Reader reader = Resources.getResourceAsReader(conf);
+        //创建SessionFactory对象
+        SqlSessionFactoryBuilder sfb =  new SqlSessionFactoryBuilder();
+        SqlSessionFactory sf = sfb.build(reader);
+        //创建Session
+        SqlSession session = sf.openSession();
+
+        Deptmapper mapper = session.getMapper(Deptmapper.class);
+
+        //调用findAll1方法
+        List<Dept1> list = mapper.findall1();
+        for(Dept1 dept : list){
+            System.out.println(dept.getNo() + " " + dept.getName() + " " + dept.getAddr());
+        }
+        System.out.println(list.size());
+        session.close();
+    }
 }

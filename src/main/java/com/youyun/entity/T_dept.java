@@ -5,6 +5,7 @@ public class T_dept {
   private String dname;//部門名
   private String loc;//部門
 
+  //getXXX为读取，setXXX为赋值
   public long getDeptno() {
     return deptno;
   }
@@ -21,7 +22,7 @@ public class T_dept {
     this.dname = dname;
   }
 
-  public String getLoc() {
+  public String getDLoc() {
     return loc;
   }
 
