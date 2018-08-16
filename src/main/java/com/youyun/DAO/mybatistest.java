@@ -206,7 +206,7 @@ public class mybatistest{
         }
         System.out.println("序列大小："+list.size());
         session.close();
-    }
+    }//---------------------------------------------------------测试可用
 
     /**
      * 测试自定义映射返回（实体类class与数据库表db.table的字段不一致时，用实体字段映射DB字段并返回DB数据）
@@ -231,5 +231,5 @@ public class mybatistest{
         }
         System.out.println(list.size());
         session.close();
-    }
+    }//---------------------------------------------------------测试可用
 }
